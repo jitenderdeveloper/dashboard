@@ -1,32 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import Button from '../../Components/Button'
+import React, { useState } from 'react'
 import Navbar from '../../Components/Navbar'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import Button from '../../Components/Button';
+
 import { TOKEN_LINK, URL_LINK } from '../../Protected/Helpers';
 
-
-function AddProduct() {
+function AddTechnology() {
 
     const nevagite = useNavigate()
 
     const [title, setTitle] = useState("");
-    const [category, setCategory] = useState("");
-    const [image, setImage] = useState("");
-    const [logo, setLogo] = useState("");
-    const [price, setPrice] = useState("");
-    const [link, setLink] = useState("");
+    const [icon, setIcon] = useState("");
     const [description, setDescription] = useState("");
 
     const [store, setStore] = useState([]);
     // console.log('data ->', store)
 
-    const AddProductHandler = () => {
+    const AddTechnologyHandler = () => {
 
-        const dataStore = { title: title, category: category, image:image, logo: logo, description: description, price: price, link:link };
-        if (!title && !category && !image && !logo && !description && !price && !link) {
+        const dataStore = { title: title, icon: icon, description:description };
+        if (!title || !icon || !description) {
             toast.error('All field are required!', {
                 position: "top-right",
                 autoClose: 1000,
@@ -39,7 +35,7 @@ function AddProduct() {
             });
         } else {
             setStore([...store, dataStore])
-            toast.success(`Product is Added..`, {
+            toast.success(`Technology is Added..`, {
                 position: "top-right",
                 autoClose: 1000,
                 hideProgressBar: false,
@@ -50,7 +46,7 @@ function AddProduct() {
                 theme: "colored",
             });
 
-            fetch(`${URL_LINK}/product`, {
+            fetch(`${URL_LINK}/technology`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${TOKEN_LINK}`,
@@ -60,25 +56,24 @@ function AddProduct() {
             }).then((rep) => rep.json())
                 .then((result) => {
                     // console.log('data ->', result)
-                    nevagite('/Product')
+                    nevagite('/Technology')
                 })
 
         }
     }
 
-
     return (
         <>
             <Navbar />
             <div className="container mt-3">
-                <Button title="Go to Back" link="/Product" />
+                <Button title="Go to Back" link="/Client" />
                 <div className="row">
                     <div className="col-12">
                         <div className="form_data">
                             <form action="">
                                 <div className="input-image mb-3">
                                     {
-                                        !image ? <img src=".././assets/image/welcome/svg" alt="" /> : <img src={image} alt="" />
+                                        !icon ? <img src="../../assets/image/welcome/svg" alt="" /> : <img src={icon} alt="" />
                                     }
 
                                 </div>
@@ -87,24 +82,8 @@ function AddProduct() {
                                     <input onChange={(e) => setTitle(e.target.value)} type="text" className="form-control" />
                                 </div>
                                 <div className="input-data">
-                                    <label>Category</label>
-                                    <input onChange={(e) => setCategory(e.target.value)} type="text" className="form-control" />
-                                </div>
-                                <div className="input-data">
                                     <label>Upload Image</label>
-                                    <input onChange={(e) => setImage(e.target.value)} type="text" className="form-control" />
-                                </div>
-                                <div className="input-data">
-                                    <label>Upload Logo</label>
-                                    <input onChange={(e) => setLogo(e.target.value)} type="text" className="form-control" />
-                                </div>
-                                <div className="input-data">
-                                    <label>Price</label>
-                                    <input onChange={(e) => setPrice(e.target.value)} type="text" className="form-control" />
-                                </div>
-                                <div className="input-data">
-                                    <label>Product Link</label>
-                                    <input onChange={(e) => setLink(e.target.value)} type="text" className="form-control" />
+                                    <input onChange={(e) => setIcon(e.target.value)} type="text" className="form-control" />
                                 </div>
                                 <div className="input-data input-textarea">
                                     <label>Description</label>
@@ -112,7 +91,7 @@ function AddProduct() {
                                 </div>
 
                                 <div className="input-data">
-                                    <button type='button' onClick={AddProductHandler} className='btn btn-dark'>Add Product</button>
+                                    <button type='button' onClick={AddTechnologyHandler} className='btn btn-dark'>Add Client</button>
                                 </div>
                             </form>
                         </div>
@@ -124,4 +103,4 @@ function AddProduct() {
     )
 }
 
-export default AddProduct
+export default AddTechnology

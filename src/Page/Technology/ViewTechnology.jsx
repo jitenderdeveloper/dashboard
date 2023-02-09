@@ -2,56 +2,50 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Button from '../../Components/Button'
 import Navbar from '../../Components/Navbar'
-import { TOKEN_LINK, URL_LINK } from '../../Protected/Helpers'
+import { TOKEN_LINK, URL_LINK } from '../../Protected/Helpers';
 
-function ViewContact() {
+function ViewTechnology() {
     const params = useParams()
-
-    const [data, setData] = useState([])
-
+    // console.log(params.id)
+    const [store, setStore] = useState([])
+    const { title, icon, description } = store;
+    // console.log(store)
     const getData = () => {
-        fetch(`${URL_LINK}/contact/${params.id}`, {
+
+        fetch(`${URL_LINK}/technology/${params.id}`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${TOKEN_LINK}`
-            }
+            },
         }).then((res) => res.json())
             .then((result) => {
-                setData(result.Contact_list)
+                setStore(result.Technology_list)
         })
     }
 
     useEffect(() => {
         getData()
     },[])
+
     return (
         <>
             <Navbar />
             <div className="container mt-3">
-                <Button title="Go to Back" link="/Contact" />
+                <Button title="Go to Back" link="/Technology" />
                 <div className="row">
                     <div className="col-12">
                         <div className="view-content bg-dark">
-                            <div className="view-section contact-heading">
-                                <h3>Name</h3>
-                                <h4>{data.name}</h4>
+                        <div className="input-image mb-4">
+                                <img src={icon} alt="" />
                             </div>
                             <div className="view-section contact-heading">
-                                <h3>Eamil</h3>
-                                <h4>{data.email}</h4>
+                                <h3>Title</h3>
+                                <h4>{title}</h4>
                             </div>
                             <div className="view-section contact-heading">
-                                <h3>Location</h3>
-                                <h4>{data.location}</h4>
-                            </div>
-                            <div className="view-section contact-heading">
-                                <h3>Subscribe</h3>
-                                <h4>{data.subscribe}</h4>
-                            </div>
-                            <div className="view-section contact-heading">
-                                <h3>Comment</h3>
-                                <h4>{data.comment}</h4>
+                                <h3>Description</h3>
+                                <h4>{description}</h4>
                             </div>
                         </div>
                     </div>
@@ -61,4 +55,4 @@ function ViewContact() {
     )
 }
 
-export default ViewContact
+export default ViewTechnology

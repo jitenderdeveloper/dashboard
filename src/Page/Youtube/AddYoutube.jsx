@@ -5,7 +5,7 @@ import Navbar from '../../Components/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import { URL_LINK } from '../../Protected/Helpers';
+import { TOKEN_LINK, URL_LINK } from '../../Protected/Helpers';
 
 function AddYoutube() {
 
@@ -17,9 +17,6 @@ function AddYoutube() {
 
     const [store, setStore] = useState([]);
     // console.log('data ->', store)
-
-    let user = JSON.parse(localStorage.getItem('users'));
-    const token = user.token;
     const AddBlogHandler = () => {
 
         const dataStore = { title: title, video: video, description: description };
@@ -50,7 +47,7 @@ function AddYoutube() {
             fetch(`${URL_LINK}/youtubelink`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${TOKEN_LINK}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(dataStore)

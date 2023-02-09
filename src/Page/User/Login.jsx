@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { URL_LINK } from '../../Protected/Helpers';
 
 function Login() {
 
@@ -39,7 +40,7 @@ function Login() {
         theme: "colored",
       });
 
-      fetch('http://localhost:8000/user/login', {
+      fetch(`${URL_LINK}/user/login`, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {

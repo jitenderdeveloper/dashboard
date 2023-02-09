@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../Components/Button';
 
-import { URL_LINK } from '../../Protected/Helpers';
+import { TOKEN_LINK, URL_LINK } from '../../Protected/Helpers';
 
 function AddClient() {
 
@@ -17,10 +17,6 @@ function AddClient() {
 
     const [store, setStore] = useState([]);
     // console.log('data ->', store)
-
-    let user = JSON.parse(localStorage.getItem('users'));
-    const token = user.token;
-
     const AddClientHandler = () => {
 
         const dataStore = { title: title, logo: logo };
@@ -51,7 +47,7 @@ function AddClient() {
             fetch(`${URL_LINK}/client`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${TOKEN_LINK}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(dataStore)

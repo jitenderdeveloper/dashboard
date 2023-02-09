@@ -9,40 +9,44 @@ import { TOKEN_LINK, URL_LINK } from '../../Protected/Helpers';
 import Loading from '../../Protected/Loading';
 
 
-function Client() {
+function Users() {
 
     const [loading, setLoading] = useState(true)
+
     const [store, setStore] = useState([])
     // console.log(store)
 
-    const DeleteHandler = (id) => {
-        fetch(`${URL_LINK}/client/${id}`, {
-            method: 'DELETE',
+    // const DeleteHandler = (id) => {
+    //     fetch(`${URL_LINK}/technology/${id}`, {
+    //         method: 'DELETE',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer ${token}`
+    //         },
+    //     }).then((res) => res.json())
+    //         .then((result) => {
+    //             fetchData()
+    //         })
+    // }
+
+    const fetchData = () => {
+        fetch(`${URL_LINK}/user/users`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${TOKEN_LINK}`
-            },
-        }).then((res) => res.json())
-            .then((result) => {
-                fetchData()
-        })
-    }
-
-    const fetchData = () => {
-        fetch(`${URL_LINK}/client`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
             }
         }).then((res) => res.json())
             .then((result) => {
-                setStore(result.Client_list)
+                setStore(result.user_list)
+                // console.log(result.user_list)
             })
     }
 
     useEffect(() => {
         fetchData()
     }, [])
+
 
 
     useEffect(() => {
@@ -55,20 +59,21 @@ function Client() {
         };
     }, [])
 
+    
 
     return (
         <>
             <Navbar />
             <div className="container mt-3">
-                <Button title="Add Client" link="/AddClient" />
+                <Button title="Add User" link="/Signup" />
                 <div className="row scroll-bhe">
                     <div className="col-12 scroll-ho">
                         <table className="table">
                             <thead>
                                 <tr>
                                     <th scope="col">S.No</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Logo</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Email</th>
                                     <th scope="col">Others</th>
                                 </tr>
                             </thead>
@@ -76,18 +81,14 @@ function Client() {
                                 {
                                     loading ? <Loading /> :
                                     store.map((val, ind) => {
-                                        const { _id, title, logo } = val;
                                         return (
                                             <tr key={ind}>
                                                 <th className='size-lg ' scope="row"><BiChevronRight/></th>
-                                                <td className='size-lg client-si'>{title}</td>
-                                                <td className='img-td size-lg '>
-                                                    <img src={logo} alt="" />
-                                                </td>
+                                                <td className='size-lg'>{ val.username}</td>
+                                                <td className='size-lg'>{val.email}</td>
                                                 <td className='icon-curd size-lg'>
-                                                    <Link to={`/EditClient/${_id}`} type='button' title='Edit'><span className='icon'><AiFillEdit /></span> </Link>
-                                                    <a type='button' title='Delete' onClick={() => DeleteHandler(_id)}><span className='icon'><AiTwotoneDelete /></span></a>
-                                                    <Link to={`/ViewClient/${_id}`} type='button' title='View'><span className='icon'><BsInfoSquareFill /></span></Link>
+                                                    <Link to='' type='button' title='Edit'><span className='icon'><AiFillEdit /></span> </Link>
+                                                    <a type='button' title='Delete'><span className='icon'><AiTwotoneDelete /></span></a>
                                                 </td>
                                             </tr>
                                         )
@@ -102,4 +103,4 @@ function Client() {
     )
 }
 
-export default Client
+export default Users

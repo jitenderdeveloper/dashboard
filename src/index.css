@@ -15,7 +15,6 @@ body {
   --border-radius: 16px;
 }
 
-
 .home-container a,
 .home-container,
 .bg-home,
@@ -31,6 +30,7 @@ body {
   justify-content: flex-start;
   flex-direction: column;
 }
+.inner-dash,
 .login-form {
   display: flex;
   align-items: center;
@@ -230,6 +230,12 @@ body {
   .form-data {
     width: 90%;
   }
+  .align-items-center{
+    justify-content: flex-end !important;
+  }
+  .navbar-nav{
+    padding: 1rem 1rem 0 1rem;
+  }
 
   .main-menu {
     height: 100vh;
@@ -250,7 +256,32 @@ body {
   .btn-edit{
     width: 45% !important; 
   }
+  .navbar-nav {
+    display: flex;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+  }
+
+  .scroll-bhe{
+    overflow: hidden !important;
+  }
+  .scroll-ho{
+    overflow: scroll;
+  }
   
+}
+
+.loading1{
+  color: red;
+}
+.navbar-toggler:focus{
+  box-shadow: none;
+}
+.navbar-light .navbar-toggler{
+  color: var(--font-color) !important;
+  font-size: 2rem;
+  padding: 0;
+  border: none;
 }
 
 .btn-edit{
@@ -298,16 +329,18 @@ body {
 }
 
 .loader {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 82%;
+  height: auto ;
+  background-color: transparent;
+}
+.loader h5{
+  font-size: 15px;
+  text-align: center;
 }
 
-.loader h4 {
-  margin-right: 10px;
-}
 
 .main-menu {
   height: 89vh;
@@ -465,3 +498,22 @@ input:focus-visible{
   font-size: 13px;
   color: var(--hover-color);
 }
+
+
+
+.inner-dash{
+  background-color: var(--bg-color);
+  height: 25vh;
+  border-radius: var(--border-radius);
+  color: var(--font-color);
+}
+
+.tox-tinymce{
+  width: 100% !important;
+  height: 60vh !important;
+}
+
+.view-section{
+  color: var(--font-color) !important;
+}
+

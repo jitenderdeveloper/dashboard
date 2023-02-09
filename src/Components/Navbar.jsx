@@ -1,7 +1,9 @@
-import React from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BiChevronsDown } from "react-icons/bi";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Navbar() {
+
     const nevigate = useNavigate();
     let user = JSON.parse(localStorage.getItem("users"));
     // console.log(user.username);
@@ -26,7 +28,7 @@ function Navbar() {
                         aria-expanded="false"
                         aria-label="Toggle navigation"
                     >
-                        <span className="navbar-toggler-icon"></span>
+                        <BiChevronsDown />
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -52,10 +54,10 @@ function Navbar() {
                                 <NavLink className="nav-link" to="/Product">Products</NavLink>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Technology</a>
+                                <NavLink className="nav-link" to="/Technology">Technology</NavLink>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Users</a>
+                                <NavLink className="nav-link" to="/Users">Users</NavLink>
                             </li>
                         </ul>
                         <ul className="profile-section">
@@ -71,11 +73,6 @@ function Navbar() {
                                     />
                                 </a>
                                 <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <Link className="dropdown-item" to="/Signup">
-                                            SignUp
-                                        </Link>
-                                    </li>
                                     <li>
                                         <a className="dropdown-item" href="#">
                                             Settings

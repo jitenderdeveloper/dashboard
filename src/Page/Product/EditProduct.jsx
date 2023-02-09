@@ -5,7 +5,7 @@ import Navbar from '../../Components/Navbar'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { URL_LINK } from '../../Protected/Helpers';
+import { TOKEN_LINK, URL_LINK } from '../../Protected/Helpers';
 
 
 function EditProduct() {
@@ -16,6 +16,7 @@ function EditProduct() {
 
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState("");
+    const [image, setImage] = useState("");
     const [logo, setLogo] = useState("");
     const [price, setPrice] = useState("");
     const [link, setLink] = useState("");
@@ -24,13 +25,11 @@ function EditProduct() {
     const [store, setStore] = useState([]);
     // console.log('data ->', store)
 
-    let user = JSON.parse(localStorage.getItem('users'));
-    const token = user.token;
 
     const AddProductHandler = () => {
 
-        const dataStore = { title: title, category: category, logo: logo, description: description, price: price, link: link };
-        if (!title || !category || !logo || !description || !price || !link) {
+        const dataStore = { title: title, category: category, image: image, logo: logo, description: description, price: price, link: link };
+        if (!title && !category && !image && !logo && !description && !price && !link) {
             toast.error('All field are required!', {
                 position: "top-right",
                 autoClose: 1000,
@@ -57,7 +56,7 @@ function EditProduct() {
             fetch(`${URL_LINK}/product/${params.id}`, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${TOKEN_LINK}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(dataStore)
@@ -75,14 +74,15 @@ function EditProduct() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${TOKEN_LINK}`
             }
         }).then((res) => res.json())
             .then((result) => {
                 let prData = result.Product_List;
-                const { title, price, logo, link, description, category } = prData;
+                const { title, price, image, logo, link, description, category } = prData;
                 setTitle(title)
                 setPrice(price)
+                setImage(image)
                 setLogo(logo)
                 setLink(link)
                 setDescription(description)
@@ -106,7 +106,7 @@ function EditProduct() {
                             <form action="">
                                 <div className="input-image mb-3">
                                     {
-                                        !logo ? <img src=".././assets/image/welcome/svg" alt="" /> : <img src={logo} alt="" />
+                                        !image ? <img src=".././assets/image/welcome/svg" alt="" /> : <img src={image} alt="" />
                                     }
 
                                 </div>
@@ -120,6 +120,10 @@ function EditProduct() {
                                 </div>
                                 <div className="input-data">
                                     <label>Upload Image</label>
+                                    <input value={image} onChange={(e) => setImage(e.target.value)} type="text" className="form-control" />
+                                </div>
+                                <div className="input-data">
+                                    <label>Upload Logo</label>
                                     <input value={logo} onChange={(e) => setLogo(e.target.value)} type="text" className="form-control" />
                                 </div>
                                 <div className="input-data">

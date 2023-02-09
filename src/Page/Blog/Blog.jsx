@@ -2,15 +2,18 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../../Components/Navbar';
 import { BsInfoSquareFill } from "react-icons/bs";
 import { AiFillEdit, AiTwotoneDelete } from "react-icons/ai";
+import { BiChevronRight } from "react-icons/bi";
 import Button from '../../Components/Button';
 import { Link } from 'react-router-dom';
-import { URL_LINK } from '../../Protected/Helpers';
+import { TOKEN_LINK, URL_LINK } from '../../Protected/Helpers';
+import Loading from '../../Protected/Loading';
 
 function Blog() {
+    const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
     // console.log(data)
 
-     const blogData = () => {
+    const blogData = () => {
         fetch(`${URL_LINK}/blog`, {
             method: 'GET',
             headers: {
@@ -23,19 +26,17 @@ function Blog() {
 
 
     const DeleteHandler = (id) => {
-        let user = JSON.parse(localStorage.getItem('users'));
-        const token = user.token;
         fetch(`${URL_LINK}/blog/${id}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${TOKEN_LINK}`,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             },
         }).then((rep) => rep.json())
-        .then((item) => {  
-            blogData()
-        })
+            .then((item) => {
+                blogData()
+            })
     }
 
 
@@ -45,14 +46,25 @@ function Blog() {
     }, [])
 
 
+    useEffect(() => {
+        const spin = setTimeout(() => {
+            setLoading(false)
+        }, 3000)
+
+        return () => {
+            clearTimeout(spin);
+        };
+    }, [])
+
+
 
     return (
         <>
             <Navbar />
             <div className="container mt-3">
                 <Button title="Add Blog" link="/AddBlog" />
-                <div className="row">
-                    <div className="col-12">
+                <div className="row scroll-bhe">
+                    <div className="col-12 scroll-ho">
                         <table className="table">
                             <thead>
                                 <tr>
@@ -67,29 +79,29 @@ function Blog() {
                             </thead>
                             <tbody>
                                 {
-                                    data?.map((val, ind) => {
-                                        // console.log(val)
-                                        const { _id, title, category, image, description, desc_list, data } = val;
-                                        return (
-                                            <tr key={ind}>
-                                                <th className='size-lg' scope="row">1</th>
-                                                <td className='size-lg'>{title.slice(0,40)}.</td>
-                                                <td className='size-lg'>{category}</td>
-                                                <td className='size-lg'>{description.slice(0,76)}.</td>
-                                                <td className='size-lg'>{desc_list}</td>
+                                    loading ? <Loading /> :
+                                        data?.map((val, ind) => {
+                                            const { _id, title, category, image, description, desc_list, data } = val;
+                                            return (
+                                                <tr key={ind}>
+                                                    <th className='size-lg' scope="row"><BiChevronRight /></th>
+                                                    <td className='size-lg'>{title.slice(0, 40)}.</td>
+                                                    <td className='size-lg'>{category}</td>
+                                                    <td className='size-lg'>{description.slice(0, 76)}.</td>
+                                                    <td className='size-lg'>{desc_list}</td>
 
-                                                <td className='img-td size-lg'>
-                                                    <img src={image} alt="" />
-                                                </td>
-                                                <td className='icon-curd size-lg'>
-                                                    <Link to={`/EditBlog/${_id}`} type='button' title='Edit'><span className='icon'><AiFillEdit /></span> </Link>
-                                                    <a type='button' title='Delete' onClick={() => DeleteHandler(_id)}><span className='icon'><AiTwotoneDelete /></span></a>
-                                                    <Link to={`/ViewBlog/${_id}`} type='button' title='View'><span className='icon'><BsInfoSquareFill /></span></Link>
-                                                    {/* <a href="" title='View'><span className='icon'><BsInfoCircleFill /></span></a> */}
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
+                                                    <td className='img-td size-lg'>
+                                                        <img src={image} alt="" />
+                                                    </td>
+                                                    <td className='icon-curd size-lg'>
+                                                        <Link to={`/EditBlog/${_id}`} type='button' title='Edit'><span className='icon'><AiFillEdit /></span> </Link>
+                                                        <a type='button' title='Delete' onClick={() => DeleteHandler(_id)}><span className='icon'><AiTwotoneDelete /></span></a>
+                                                        <Link to={`/ViewBlog/${_id}`} type='button' title='View'><span className='icon'><BsInfoSquareFill /></span></Link>
+                                                        {/* <a href="" title='View'><span className='icon'><BsInfoCircleFill /></span></a> */}
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })
                                 }
 
                             </tbody>

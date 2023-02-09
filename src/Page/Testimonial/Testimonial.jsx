@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { AiTwotoneDelete } from 'react-icons/ai';
+import { BiChevronRight } from 'react-icons/bi';
 import { BsInfoSquareFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import Navbar from '../../Components/Navbar';
-import { URL_LINK } from '../../Protected/Helpers';
+import { TOKEN_LINK, URL_LINK } from '../../Protected/Helpers';
+import Loading from '../../Protected/Loading';
 
 function Testimonial() {
 
+    const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
 
     const fethData = () => {
@@ -23,13 +26,10 @@ function Testimonial() {
 
 
     const DeleteHandler = (id) => {
-        let user = JSON.parse(localStorage.getItem('users'));
-        let token = user.token;
-
         fetch(`${URL_LINK}/testimonial/${id}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${TOKEN_LINK}`,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             },
@@ -44,12 +44,23 @@ function Testimonial() {
     useEffect(() => {
         fethData()
     }, [])
+
+    useEffect(() => {
+        const spin = setTimeout(() => {
+            setLoading(false)
+        }, 3000)
+
+        return () => {
+            clearTimeout(spin);
+        };
+    }, [])
+    
     return (
         <>
             <Navbar />
             <div className="container mt-3">
-                <div className="row">
-                    <div className="col-12">
+                <div className="row scroll-bhe">
+                    <div className="col-12 scroll-ho">
                         <table className="table">
                             <thead>
                                 <tr>
@@ -65,11 +76,12 @@ function Testimonial() {
                             </thead>
                             <tbody>
                                 {
+                                    loading ? <Loading /> :
                                     data.map((val, ind) => {
                                         const { _id, name, city, description, email, image, category } = val;
                                         return (
                                             <tr key={ind}>
-                                                <th className='size-lg' scope="row">1</th>
+                                                <th className='size-lg' scope="row"><BiChevronRight/></th>
                                                 <td className='size-lg'>{name}</td>
                                                 <td className='size-lg'>{city}</td>
                                                 <td className='size-lg'>{description}</td>

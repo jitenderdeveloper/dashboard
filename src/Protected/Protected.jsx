@@ -9,16 +9,16 @@ function Protected(props) {
         let storage = localStorage.getItem('users');
         if (!storage) {
             History('/Login');
-        }else{
-            History('/Dashboard')
+        } else {
+            History('/Dashboard');
         }
     }, []);
 
-  return (
-    <>
-        <ProtectRoute />
-    </>
-  )
+    return (
+        <>
+            <ProtectRoute />
+        </>
+    )
 }
 
 export default Protected

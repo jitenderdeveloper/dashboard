@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Button from '../../Components/Button';
 import Navbar from '../../Components/Navbar';
-import { URL_LINK } from '../../Protected/Helpers';
+import { TOKEN_LINK, URL_LINK } from '../../Protected/Helpers';
 
 function ViewYoutube() {
     const params = useParams()
@@ -10,14 +10,12 @@ function ViewYoutube() {
     const [data, setData] = useState([])
     // console.log(data)
 
-    let user = JSON.parse(localStorage.getItem('users'))
-    let token = user.token;
     const fethData = () => {
         fetch(`${URL_LINK}/youtubelink/${params.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${TOKEN_LINK}`
             }
         }).then((res) => res.json())
             .then((result) => {

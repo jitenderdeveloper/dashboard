@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../Components/Button';
 
-import { URL_LINK } from '../../Protected/Helpers';
+import { TOKEN_LINK, URL_LINK } from '../../Protected/Helpers';
 
 function EditClient() {
 
@@ -20,9 +20,6 @@ function EditClient() {
 
     const [store, setStore] = useState([]);
     // console.log('data ->', store)
-
-    let user = JSON.parse(localStorage.getItem('users'));
-    const token = user.token;
 
     const EditClientHandler = () => {
 
@@ -54,7 +51,7 @@ function EditClient() {
             fetch(`${URL_LINK}/client/${params.id}`, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${TOKEN_LINK}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(dataStore)
@@ -71,7 +68,7 @@ function EditClient() {
         fetch(`${URL_LINK}/client/${params.id}`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${TOKEN_LINK}`,
                 'Content-Type': 'application/json'
             }
         }).then((rep) => rep.json())
