@@ -24,6 +24,7 @@ function Technology() {
             },
         }).then((res) => res.json())
             .then((result) => {
+                // console.log(result)
                 fetchData()
         })
     }
